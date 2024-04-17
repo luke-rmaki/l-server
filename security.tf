@@ -3,21 +3,51 @@ resource "aws_security_group" "security" {
 
   vpc_id = aws_vpc.test_env.id
 
-  ingress {
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-  }
+  # ingress {
+  #   cidr_blocks = [
+  #     "0.0.0.0/0"
+  #   ]
+  #   from_port = 22
+  #   to_port   = 22
+  #   protocol  = "tcp"
+  # }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # egress {
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = -1
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+}
+
+resource "aws_security_group_rule" "allow_https" {
+ type              = "ingress"
+ description       = "HTTPS ingress"
+ from_port         = 443
+ to_port           = 443
+ protocol          = "tcp"
+ cidr_blocks       = ["0.0.0.0/0"]
+ security_group_id = aws_security_group.security.id
+}
+
+resource "aws_security_group_rule" "allow_ssh" {
+ type              = "ingress"
+ description       = "SSH ingress"
+ from_port         = 22
+ to_port           = 22
+ protocol          = "tcp"
+ cidr_blocks       = ["0.0.0.0/0"]
+ security_group_id = aws_security_group.security.id
+}
+
+resource "aws_security_group_rule" "allow_http" {
+ type              = "ingress"
+ description       = "HTTP ingress"
+ from_port         = 80
+ to_port           = 80
+ protocol          = "tcp"
+ cidr_blocks       = ["0.0.0.0/0"]
+ security_group_id = aws_security_group.security.id
 }
 
 

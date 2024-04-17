@@ -5,8 +5,9 @@ resource "aws_instance" "l-server" {
   security_groups             = ["${aws_security_group.security.id}"]
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.subnet.id
-  user_data = file("init.sh")
+  # user_data = file("init.sh")
   tags = {
     Name = "L-Server"
   }
 }
+
